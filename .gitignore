@@ -1,0 +1,8 @@
+.DS_Store
+.Rhistory
+.matplotlib/
+__pycache__/
+*.pyc
+~$*
+.~*
+artifacts/*_smoke/

@@ -1,0 +1,37 @@
+{
+  "config": {
+    "examples_per_type": 50,
+    "length": 40,
+    "device": "cpu"
+  },
+  "summary": {
+    "E1_missing_closer": {
+      "error_weight": 0.018103742484513817,
+      "control_mean": 0.018904541188604275,
+      "control_std": 0.0056876812323601676,
+      "error_over_control": 0.9625461532942302,
+      "error_percentile": 0.4846153846153846
+    },
+    "E2_spurious_opener": {
+      "error_weight": 0.01698991423604449,
+      "control_mean": 0.017911285626247674,
+      "control_std": 0.005616457726448394,
+      "error_over_control": 0.951904798333406,
+      "error_percentile": 0.4804878048780488
+    },
+    "E3_type_mismatch": {
+      "error_weight": 0.021553841552616245,
+      "control_mean": 0.018300882797052945,
+      "control_std": 0.005242877132374712,
+      "error_over_control": 1.183711252561542,
+      "error_percentile": 0.6925000000000001
+    },
+    "E4_premature_close": {
+      "error_weight": 0.02008691479152848,
+      "control_mean": 0.01794796941178458,
+      "control_std": 0.005301472820024125,
+      "error_over_control": 1.1245700618359147,
+      "error_percentile": 0.6663414634146341
+    }
+  }
+}

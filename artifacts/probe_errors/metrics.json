@@ -1,0 +1,56 @@
+{
+  "config": {
+    "train_examples_per_depth": 300,
+    "test_examples_per_depth": 100,
+    "error_examples_per_type": 100,
+    "layer_index": 2,
+    "device": "cpu"
+  },
+  "correct_strings": {
+    "r2": 0.1527274305058921,
+    "mae": 1.2853489940730087
+  },
+  "erroneous_strings": {
+    "r2_against_corrupted_prefix_balance": -0.21812326957906958,
+    "mae_by_segment": {
+      "E1_missing_closer": {
+        "before": 1.0732060328101802,
+        "at": 0.949385313987732,
+        "after": 0.7562354516647605
+      },
+      "E2_spurious_opener": {
+        "before": 1.1258430974445646,
+        "at": 0.875583838224411,
+        "after": 0.7218371600224166
+      },
+      "E3_type_mismatch": {
+        "before": 1.039070023542895,
+        "at": 1.2169856429100037,
+        "after": 1.2117558214340154
+      },
+      "E4_premature_close": {
+        "before": 0.9924468695733845,
+        "at": 1.672885845899582,
+        "after": 1.7389827354585918
+      }
+    },
+    "localization_from_probe_residual": {
+      "E1_missing_closer": {
+        "mean_rank": 28.93,
+        "top1_accuracy": 0.02
+      },
+      "E2_spurious_opener": {
+        "mean_rank": 31.93,
+        "top1_accuracy": 0.03
+      },
+      "E3_type_mismatch": {
+        "mean_rank": 25.93,
+        "top1_accuracy": 0.05
+      },
+      "E4_premature_close": {
+        "mean_rank": 26.46,
+        "top1_accuracy": 0.01
+      }
+    }
+  }
+}

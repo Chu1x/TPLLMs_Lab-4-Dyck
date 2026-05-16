@@ -1,0 +1,96 @@
+{
+  "config": {
+    "train_size": 10000,
+    "dev_size": 1000,
+    "id_test_size": 1000,
+    "ood_size_per_depth": 1000,
+    "epochs": 8,
+    "batch_size": 128,
+    "hidden_dim": 64,
+    "layers": 2,
+    "heads": 4,
+    "dropout": 0.1,
+    "lr": 0.0003,
+    "max_len": 80,
+    "seed": 67,
+    "output_dir": "artifacts/length_aug",
+    "device": "cpu"
+  },
+  "history": [
+    {
+      "epoch": 1.0,
+      "train_loss": 0.7005752076076556,
+      "train_accuracy": 0.499,
+      "dev_loss": 0.6947210431098938,
+      "dev_accuracy": 0.5,
+      "dev_macro_f1": 0.3519253003178158
+    },
+    {
+      "epoch": 2.0,
+      "train_loss": 0.6960521408274204,
+      "train_accuracy": 0.5075,
+      "dev_loss": 0.7009007260203362,
+      "dev_accuracy": 0.5,
+      "dev_macro_f1": 0.3333333333333333
+    },
+    {
+      "epoch": 3.0,
+      "train_loss": 0.6947856681256355,
+      "train_accuracy": 0.5001,
+      "dev_loss": 0.6972825080156326,
+      "dev_accuracy": 0.5,
+      "dev_macro_f1": 0.3333333333333333
+    },
+    {
+      "epoch": 4.0,
+      "train_loss": 0.6946413758434827,
+      "train_accuracy": 0.5017,
+      "dev_loss": 0.6953166276216507,
+      "dev_accuracy": 0.504,
+      "dev_macro_f1": 0.34559118447995607
+    },
+    {
+      "epoch": 5.0,
+      "train_loss": 0.6936612974239301,
+      "train_accuracy": 0.5131,
+      "dev_loss": 0.6924049481749535,
+      "dev_accuracy": 0.504,
+      "dev_macro_f1": 0.3421611068669892
+    },
+    {
+      "epoch": 6.0,
+      "train_loss": 0.6929599024072478,
+      "train_accuracy": 0.5121,
+      "dev_loss": 0.6904935464262962,
+      "dev_accuracy": 0.533,
+      "dev_macro_f1": 0.4565818181818182
+    },
+    {
+      "epoch": 7.0,
+      "train_loss": 0.6922464747972126,
+      "train_accuracy": 0.5178,
+      "dev_loss": 0.6908908411860466,
+      "dev_accuracy": 0.523,
+      "dev_macro_f1": 0.38250109065583043
+    },
+    {
+      "epoch": 8.0,
+      "train_loss": 0.6911477144760422,
+      "train_accuracy": 0.5164,
+      "dev_loss": 0.6967184916138649,
+      "dev_accuracy": 0.502,
+      "dev_macro_f1": 0.33776243490656865
+    }
+  ],
+  "id_test": {
+    "loss": 0.696131706237793,
+    "accuracy": 0.502,
+    "macro_f1": 0.33776243490656865
+  },
+  "ood_by_depth": {
+    "5": 0.5,
+    "6": 0.5,
+    "7": 0.5
+  },
+  "ood_overall_accuracy": 0.5
+}

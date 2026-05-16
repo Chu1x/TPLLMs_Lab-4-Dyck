@@ -1,0 +1,19 @@
+{
+  "config": {
+    "examples_per_depth": 300,
+    "test_fraction": 0.3,
+    "length_range": [
+      4,
+      78
+    ],
+    "num_token_examples": 100632,
+    "device": "cpu"
+  },
+  "r2_by_layer": {
+    "embedding": 0.1393318772315979,
+    "layer_1": 0.16021662950515747,
+    "layer_2": 0.1602892279624939
+  },
+  "best_layer": "layer_2",
+  "best_r2": 0.1602892279624939
+}

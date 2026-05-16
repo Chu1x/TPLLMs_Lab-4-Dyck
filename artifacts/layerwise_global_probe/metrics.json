@@ -1,0 +1,17 @@
+{
+  "config": {
+    "examples_per_depth": 500,
+    "test_fraction": 0.3,
+    "device": "cpu"
+  },
+  "global_depth_r2_by_layer": {
+    "embedding": -0.0005486011505126953,
+    "layer_1": 0.3906714916229248,
+    "layer_2": 0.4260861873626709
+  },
+  "global_depth_accuracy_by_layer": {
+    "embedding": 0.13238095238095238,
+    "layer_1": 0.25523809523809526,
+    "layer_2": 0.29523809523809524
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "config": {
+    "examples_per_depth": 1000,
+    "length_range": [
+      40,
+      78
+    ],
+    "device": "cpu",
+    "model_path": "artifacts/detection/model.pt"
+  },
+  "overall_accuracy": 0.5563333333333333,
+  "accuracy_by_depth": {
+    "5": 0.56,
+    "6": 0.57,
+    "7": 0.539
+  },
+  "accuracy_by_length": {
+    "40-49": 0.6286173633440515,
+    "50-59": 0.6389261744966444,
+    "60-69": 0.5163727959697733,
+    "70-78": 0.46432889963724305
+  }
+}

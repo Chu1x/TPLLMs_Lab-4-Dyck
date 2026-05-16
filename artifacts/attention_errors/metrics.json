@@ -1,0 +1,59 @@
+{
+  "config": {
+    "examples_per_type": 25,
+    "length": 40,
+    "layer": 0,
+    "head": 3,
+    "device": "cpu"
+  },
+  "summary": {
+    "E1_missing_closer": {
+      "error_incoming_mean": 0.023688156567513944,
+      "error_outgoing_entropy": 3.392343006134033,
+      "error_cls_to_position": 0.022370310183614493,
+      "error_position_to_cls": 0.01932666257955134,
+      "error_local_mass": 0.16124121956527232,
+      "control_incoming_mean": 0.022590536437928677,
+      "control_outgoing_entropy": 3.3896895122528075,
+      "control_cls_to_position": 0.023058968372642995,
+      "control_position_to_cls": 0.023266749130561946,
+      "control_local_mass": 0.15498403698205948
+    },
+    "E2_spurious_opener": {
+      "error_incoming_mean": 0.022568385191261767,
+      "error_outgoing_entropy": 3.490972862243652,
+      "error_cls_to_position": 0.016613864079117774,
+      "error_position_to_cls": 0.029443153105676176,
+      "error_local_mass": 0.15571095764636994,
+      "control_incoming_mean": 0.027991191074252127,
+      "control_outgoing_entropy": 3.493011131286621,
+      "control_cls_to_position": 0.02902990873903036,
+      "control_position_to_cls": 0.02025689547881484,
+      "control_local_mass": 0.1640189678966999
+    },
+    "E3_type_mismatch": {
+      "error_incoming_mean": 0.021512150801718234,
+      "error_outgoing_entropy": 3.3311133670806883,
+      "error_cls_to_position": 0.024797027744352818,
+      "error_position_to_cls": 0.015731274075806143,
+      "error_local_mass": 0.13737889662384986,
+      "control_incoming_mean": 0.02229171499609947,
+      "control_outgoing_entropy": 3.4273672199249265,
+      "control_cls_to_position": 0.021475561354309322,
+      "control_position_to_cls": 0.02336880035698414,
+      "control_local_mass": 0.1601768474280834
+    },
+    "E4_premature_close": {
+      "error_incoming_mean": 0.026920576654374598,
+      "error_outgoing_entropy": 3.4819951915740965,
+      "error_cls_to_position": 0.029370637014508247,
+      "error_position_to_cls": 0.013074871487915515,
+      "error_local_mass": 0.15880924388766288,
+      "control_incoming_mean": 0.021305715143680574,
+      "control_outgoing_entropy": 3.4260125255584715,
+      "control_cls_to_position": 0.02307470206171274,
+      "control_position_to_cls": 0.015123833734542132,
+      "control_local_mass": 0.15244286067783833
+    }
+  }
+}
