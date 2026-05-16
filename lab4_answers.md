@@ -1,6 +1,6 @@
 ---
 title: "Lab 4: Transformers and Dyck Languages"
-author: "ZHU Yixuan"
+author: "ZHU Yixuan, cog-SUP CL"
 geometry: margin=2cm
 header-includes:
   - \pagenumbering{gobble}
