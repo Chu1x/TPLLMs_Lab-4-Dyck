@@ -303,7 +303,7 @@ artifacts/detection/confusion_by_error_type.png
 artifacts/detection/metrics.json
 ```
 
-![Detection confusion by error type](artifacts/detection/confusion_by_error_type.png)
+![Detection confusion by error type](artifacts/detection/confusion_by_error_type.png){width=60%}
 
 The model improved substantially late in training: development accuracy moved from approximately
 0.51 after the first epoch to 0.86 after the eighth epoch. There is no strong evidence of
@@ -583,9 +583,9 @@ artifacts/ood/accuracy_by_length.png
 artifacts/ood/metrics.json
 ```
 
-![OOD accuracy by depth](artifacts/ood/accuracy_by_depth.png)
+![OOD accuracy by depth](artifacts/ood/accuracy_by_depth.png){width=60%}
 
-![OOD accuracy by length](artifacts/ood/accuracy_by_length.png)
+![OOD accuracy by length](artifacts/ood/accuracy_by_length.png){width=60%}
 
 The model clearly does not generalise robustly out of distribution. Accuracy drops from `0.852`
 in distribution to `0.556` on deeper and longer OOD strings. The degradation is not neatly
@@ -753,7 +753,7 @@ artifacts/attention/layer_1_head_2.png
 artifacts/attention/layer_1_head_3.png
 ```
 
-![Attention layer 0 head 3](artifacts/attention/layer_0_head_3.png)
+![Attention layer 0 head 3](artifacts/attention/layer_0_head_3.png){width=60%}
 
 
 For each matched pair `(i, j)`, I computed:
@@ -1016,7 +1016,7 @@ artifacts/local_probe/r2_by_layer.png
 artifacts/local_probe/metrics.json
 ```
 
-![Local depth probe R2 by layer](artifacts/local_probe/r2_by_layer.png)
+![Local depth probe R2 by layer](artifacts/local_probe/r2_by_layer.png){width=60%}
 
 The best local depth probe is at layer 2, but the difference between layer 1 and layer 2 is tiny.
 The overall `R^2` is low. This means that current stack depth is only weakly linearly recoverable
@@ -1145,11 +1145,11 @@ artifacts/layerwise_global_probe/global_accuracy_by_layer.png
 artifacts/local_probe/r2_by_layer.png
 ```
 
-![Global depth probe R2 by layer](artifacts/layerwise_global_probe/global_r2_by_layer.png)
+![Global depth probe R2 by layer](artifacts/layerwise_global_probe/global_r2_by_layer.png){width=60%}
 
-![Global depth probe accuracy by layer](artifacts/layerwise_global_probe/global_accuracy_by_layer.png)
+![Global depth probe accuracy by layer](artifacts/layerwise_global_probe/global_accuracy_by_layer.png){width=60%}
 
-![Local depth probe R2 by layer](artifacts/local_probe/r2_by_layer.png)
+![Local depth probe R2 by layer](artifacts/local_probe/r2_by_layer.png){width=60%}
 
 The global depth probes show a progressive pattern. The embedding-level `[CLS]` representation
 contains essentially no useful global depth information: regression `R^2` is around zero and
