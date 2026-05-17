@@ -6,6 +6,8 @@ header-includes:
   - \pagenumbering{gobble}
 ---
 
+### GitHub: https://github.com/Chu1x/TPLLMs_Lab-4-Dyck
+
 ## 4. Theoretical Aspects
 
 ### 1. The Chomsky hierarchy and Dyck languages
@@ -34,14 +36,14 @@ For `k` bracket types, the grammar becomes
 S -> epsilon | SS | a_i S a_i_bar    for 1 <= i <= k
 ```
 
-This grammar is context-free because every production rewrites a single nonterminal `S`
+The grammar is context-free because every production rewrites a single nonterminal `S`
 independently of its surrounding context. Dyck languages are generally not regular, because a
 finite-state automaton cannot keep track of an unbounded number of unmatched opening brackets.
-Recognising a Dyck string requires stack-like memory: every opener must be pushed, and every
-closer must match the most recent unmatched opener. This is exactly the kind of memory provided
+Recognising a Dyck string requires stack-like memory. Every opener must be pushed, and every
+closer must match the most recent unmatched opener, which is exactly the kind of memory provided
 by a pushdown automaton.
 
-`D(2)` has a special theoretical role: every context-free language can be obtained as a
+`D(2)` has a special theoretical role. Every context-free language can be obtained as a
 homomorphic image of the intersection between `D(2)` and some regular language `R`. Informally,
 this means that the two-type Dyck language is expressive enough to encode the derivational
 structure of any context-free grammar, while the regular language `R` filters out only the
@@ -55,20 +57,19 @@ So the construction has three parts:
    grammar.
 3. A homomorphism erases or renames symbols to recover the original context-free language.
 
-This makes Dyck languages a natural benchmark for structural generalisation. They isolate one
-of the central difficulties of context-free syntax, that is unbounded hierarchical dependency. A model
+This is the reason why Dyck language performs as an appropriate benchmark for structural generalisation. It isolate one of the central difficulties of context-free syntax, that is unbounded hierarchical dependency. A model
 that succeeds only on short or shallow Dyck strings may have learned surface statistics, such as
 frequent local bracket patterns. A model that succeeds on deeper nesting than it saw during
 training has stronger evidence of learning a more rule-like stack discipline. In this lab, this
-is exactly why training on `D(2, n <= 4)` and testing on `D(2, n in {5, 6, 7})` is informative:
-the OOD split tests whether the Transformer has learned a reusable structural rule or merely
+is exactly why training on `D(2, n <= 4)` and testing on `D(2, n in {5, 6, 7})` is informative.
+The OOD split tests whether the Transformer has learned a reusable structural rule or merely
 memorised the training distribution.
 
 ### 2. Concrete examples
 
-#### Example 1: Parentheses, brackets, and braces in source code
+#### Example 1: Parentheses, brackets, and braces in source code.
 
-Programming languages contain many nested delimiter structures, for example, parentheses in function calls,
+Programming languages contain many nested delimiter structures. For example, parentheses in function calls,
 square brackets in indexing, braces in blocks, and angle brackets in some type systems. If we
 abstract away from the internal tokens and keep only the delimiters, the well-formedness
 condition is essentially a Dyck language with several bracket types.
@@ -127,9 +128,9 @@ The error types have direct markup analogues:
 
 This example is especially close to the Dyck task because validating nested tags requires
 remembering not only how many constituents are open, but also their types and order. A model must
-therefore learn more than a simple count, that is to say, it must learn a last-in-first-out matching relation.
+therefore learn more than a simple count. Instead, it must learn a last-in-first-out matching relation.
 
-#### Alternative computational-linguistics example: constituency syntax
+#### A computational-linguistics example: constituency syntax
 
 Constituency parse trees can also be represented with brackets. For instance,
 
@@ -144,7 +145,7 @@ and a premature close corresponds to closing a constituent that was never opened
 language syntax is not just Dyck structure, but Dyck languages capture the nested dependency
 component that parsers must handle.
 
-### 3. (bonus) LSTMs, memory, Transformers for Dyck languages
+### 3. (bonus) LSTM, memory, Transformers for Dyck languages
 
 For `D(1)`, there is only one bracket type. Recognising a string only requires checking a counter:
 
@@ -277,13 +278,13 @@ Broken down by error type:
 | E3 Type mismatch | 14 | 111 |
 | E4 Premature close | 108 | 17 |
 
-The easiest errors were E1, E2, and E3. E1 and E2 change the length parity of the sequence: a
+The easiest errors were E1, E2, and E3. E1 and E2 change the length parity of the sequence. A
 well-formed Dyck string must have even length, while deleting one closer or inserting one opener
 creates an odd-length sequence. E3 introduces a relatively local inconsistency, since a closer of
 the wrong type conflicts with the expected opener type.
 
-E4 was systematically harder in this run, but this should not be explained by the absence of a
-length-parity cue. E4 is also implemented as an insertion, so it changes the length parity just as
+E4 was systematically harder in this run. I first thought it might be explained by the absence of a
+length-parity cue, but this was rejected with further analysis. E4 is also implemented as an insertion, so it changes the length parity just as
 E2 does. The low E4 detection rate therefore suggests either that the model did not use the parity
 cue reliably, or that this particular E4 generation/distribution deserves additional inspection.
 As a data sanity check, the generated E4 examples were also evaluated with the deterministic PDA
@@ -293,7 +294,7 @@ simple length cue.
 
 I initially expected E4 to be easy, since a premature closer violates prefix well-formedness. The
 confusion matrix showed the opposite, which made me check whether the model was really exploiting
-simple length or parity cues. The answer seems to be: not reliably.
+simple length or parity cues. The answer seems to be not reliably.
 
 The training curves and confusion matrix were saved to:
 
@@ -305,9 +306,9 @@ artifacts/detection/metrics.json
 
 ![Detection confusion by error type](artifacts/detection/confusion_by_error_type.png){width=60%}
 
-The model improved substantially late in training: development accuracy moved from approximately
+The model improved substantially late in training. Development accuracy moved from approximately
 0.51 after the first epoch to 0.86 after the eighth epoch. There is no strong evidence of
-over-fitting in this preliminary run, since development loss continued to decrease by the final
+over-fitting, since development loss continued to decrease by the final
 epoch. The regularisation used here was dropout `0.1`, AdamW weight decay `0.01`, and gradient
 clipping with maximum norm `1.0`.
 
@@ -393,15 +394,13 @@ unchanged. On corrupted strings only, the model succeeds on only about `0.018` o
 | Corrupted examples only | 0.018 |
 | Approx. no-edit baseline | 0.500 |
 
-Thus, the correction experiment should be interpreted as a formulation and diagnostic baseline,
-not as a successful repair system. It shows that the local labelling setup can be implemented and
+The correction experiment could therefore be seen as a formulation and diagnostic baseline instead of a successful repair system. It shows that the local labelling setup can be implemented and
 evaluated, but the trained model almost never repairs corrupted strings exactly.
 
-To show what a more appropriate correction procedure can achieve in this controlled setting, I
-also added a constrained single-edit repair baseline to `lab4_correction.py`. It enumerates all
+To show what a more appropriate correction procedure can achieve in this controlled setting, I added a constrained single-edit repair baseline to `lab4_correction.py`. It enumerates all
 strings reachable by one edit from the corrupted input and keeps a candidate only if it is
 accepted by the deterministic Dyck PDA. This is not a neural sequence labeller, but it matches the
-structure of the lab task much better: there is exactly one corruption, and the corrected output
+structure of the lab much better. There is exactly one corruption, and the corrected output
 should be a valid Dyck string.
 
 | Method | Exact-match | Corrupted-only exact-match | Valid Dyck output rate |
@@ -410,7 +409,7 @@ should be a valid Dyck string.
 | Neural local labeller | 0.509 | 0.018 | not constrained |
 | PDA single-edit repair | 0.744 | 0.488 | 1.000 |
 
-The PDA repair baseline is much closer to the ideal correction behaviour: every output is a valid
+The PDA repair baseline is closer to successful correction, with every output being a valid
 Dyck string. Its exact match against the original clean string is lower than its validity rate
 because exact reconstruction is sometimes ambiguous. This is especially visible for E1 missing
 closers, where several insertion positions may restore a valid Dyck string even if only one
@@ -437,10 +436,10 @@ PDA single-edit valid-output rate by type:
 | E4 Premature close | 1.000 |
 
 This makes the E1 result less surprising. For E1, the baseline always restores a valid Dyck
-string, but it does not know the original deletion position. Exact reconstruction can therefore
+string, but it does not know the position where the original deletion happens. Exact reconstruction can therefore
 fail even when the validity objective is satisfied.
 
-This comparison changes how I interpret the correction part of the lab. The local sequence
+This comparison changes how I understand this part. The local sequence
 labelling model completes the requested formulation and evaluation, but it is not a good repair
 system in this small run. The constrained PDA repair baseline is the stronger correction result
 and should be used as the reference point for what is achievable when the grammar constraint is
@@ -490,9 +489,7 @@ accuracy `0.514` and development accuracy `0.510`. By epoch 8, training accuracy
 `0.691` to `0.351`.
 
 This run does not show strong over-fitting. In fact, the development score is higher than the
-training score at the end of training. This can happen because the training metric is accumulated
-while the model is still being updated within the epoch, whereas the development metric is
-computed after the full epoch with dropout disabled. More importantly, the development loss is
+training score at the end of training. More importantly, the development loss is
 still decreasing at epoch 8, so the model has probably not reached its best possible
 in-distribution performance.
 
@@ -502,14 +499,14 @@ The correction curves are saved in:
 artifacts/correction/training_curves.png
 ```
 
-For correction, the loss also decreases steadily: training loss moves from `1.011` to `0.344`,
+For correction, the loss also decreases steadily. Training loss moves from `1.011` to `0.344`,
 and development loss moves from `0.773` to `0.303`. However, the task-level behaviour is less
 satisfactory. Development token accuracy starts very high, around `0.976`, because most labels
 are `OK`, then decreases to around `0.913` as the weighted loss encourages the model to predict
 more edit labels. Exact-match accuracy remains almost flat, moving only from `0.490` to `0.516`.
 
 This means that the correction model is learning something about rare edit labels, but not enough
-to produce globally correct repairs. The loss curve alone is therefore not sufficient: for this
+to produce globally correct repairs. The loss curve alone is therefore not sufficient. For this
 task, exact-match accuracy is the more meaningful metric.
 
 The regularisation strategies used in both models were:
@@ -520,7 +517,7 @@ The regularisation strategies used in both models were:
 - small model size, with 2 layers and hidden dimension 64.
 
 For correction, I also used inverse-square-root class weighting to compensate for the dominance
-of the `OK` label. A stronger inverse-frequency weighting was tested, but it over-corrected: the
+of the `OK` label. A stronger inverse-frequency weighting was tested, but it over-corrected. The
 model began editing correct strings and exact-match accuracy collapsed. The final setting is
 therefore a compromise between learning rare edits and preserving already-correct sequences.
 
@@ -537,8 +534,7 @@ including `[CLS]` and `[SEP]`. To avoid truncating the raw bracket strings durin
 I used raw lengths from 40 to 78 rather than 40 to 80.
 
 Another data-generation detail matters for the OOD split. The generator from the handout only
-guarantees maximum depth `<= n`. For experiments described as exact depth `n`, I explicitly
-computed `max_depth(string)` and rejected samples whose actual maximum depth was not exactly `n`.
+guarantees maximum depth `<= n`. For experiments described as exact depth `n`, I computed `max_depth(string)` and rejected samples whose actual maximum depth was not exactly `n`.
 This is used for the OOD evaluations at depths 5, 6, and 7, and for the depth-5 fine-tuning
 experiment. In contrast, the length-augmentation experiment deliberately keeps the training bound
 at `n <= 4`, so it may include depths 1-4 but not deeper strings.
@@ -588,16 +584,15 @@ artifacts/ood/metrics.json
 ![OOD accuracy by length](artifacts/ood/accuracy_by_length.png){width=60%}
 
 The model clearly does not generalise robustly out of distribution. Accuracy drops from `0.852`
-in distribution to `0.556` on deeper and longer OOD strings. The degradation is not neatly
-linear in depth: performance is similar for depths 5 and 6, then slightly worse for depth 7.
+in distribution to `0.556` on deeper and longer OOD strings. The degrade is not neatly
+linear in depth. Performance is similar for depths 5 and 6, then slightly worse for depth 7.
 The length trend is more revealing. Accuracy is still above chance for lengths 40-59, but falls
 near chance for 60-69 and below chance for 70-78.
 
 I read this as a failure of length-invariant generalisation. The model probably relies on patterns
 that are useful within the training range, such as local bracket configurations, length cues, and
 shallow-depth regularities. Once sequences become substantially longer, those heuristics stop
-being reliable. The performance drop is therefore closer to an abrupt length-driven failure than
-to a smooth, rule-like degradation with nesting depth.
+being reliable. The performance drop is therefore closer to an abrupt length-driven failure.
 
 ### 8. Pushdown automaton baseline
 
@@ -658,10 +653,10 @@ Parity-only accuracy by error type is:
 | E3 Type mismatch | 0.000 |
 | E4 Premature close | 1.000 |
 
-This is a useful sanity check. The parity baseline is very strong because three of the four
+The sanity check is useful. The parity baseline is very strong because three of the four
 corruption types change string length parity. The Transformer does not even match this shortcut
 on the OOD split, so its poor OOD behaviour cannot be explained as a robust use of parity alone.
-It also explains why E3 is the important non-parity error type: detecting E3 requires more than
+It also explains why E3 is the important non-parity error type, as detecting E3 requires more than
 odd/even length.
 
 This reveals an important difference between solving the task extensionally and solving it
@@ -713,8 +708,8 @@ artifacts/finetune_ood/before_after_accuracy.png
 ```
 
 Fine-tuning on `n = 5` improves performance not only on depth 5 but also on depths 6 and 7. There
-is some transfer from the new examples, but it is modest: even after fine-tuning, accuracy remains
-around `0.61-0.64`, far below the PDA baseline.
+is some transfer from the new examples, but it is modest for that accuracy remains
+around `0.61-0.64` even after fine-tuning, far below the PDA baseline.
 
 I would call this weak transfer rather than strong compositional generalisation. If the model had
 learned the true recursive rule from the `n = 5` examples, I would expect a larger and more stable
@@ -724,7 +719,7 @@ depth-invariant stack algorithm.
 
 ## 7. Attention analysis
 
-### 10. Average attention matrices and bracket matching heads
+### 10. Visualise average attention matrices, quantify and report
 
 I implemented attention extraction in `lab4_attention.py`. Since PyTorch's standard
 `TransformerEncoderLayer` does not return attention weights by default, the script manually
@@ -740,21 +735,16 @@ python3 lab4_attention.py \
   --output-dir artifacts/attention
 ```
 
-The attention plots are saved as:
+The attention plots are:
 
-```text
-artifacts/attention/layer_0_head_0.png
-artifacts/attention/layer_0_head_1.png
-artifacts/attention/layer_0_head_2.png
-artifacts/attention/layer_0_head_3.png
-artifacts/attention/layer_1_head_0.png
-artifacts/attention/layer_1_head_1.png
-artifacts/attention/layer_1_head_2.png
-artifacts/attention/layer_1_head_3.png
-```
-
-![Attention layer 0 head 3](artifacts/attention/layer_0_head_3.png){width=60%}
-
+![Attention layer 0 head 0](artifacts/attention/layer_0_head_0.png){width=50%}
+![Attention layer 0 head 1](artifacts/attention/layer_0_head_1.png){width=50%}
+![Attention layer 0 head 2](artifacts/attention/layer_0_head_2.png){width=50%}
+![Attention layer 0 head 3](artifacts/attention/layer_0_head_3.png){width=50%}
+![Attention layer 1 head 0](artifacts/attention/layer_1_head_0.png){width=50%}
+![Attention layer 1 head 1](artifacts/attention/layer_1_head_1.png){width=50%}
+![Attention layer 1 head 2](artifacts/attention/layer_1_head_2.png){width=50%}
+![Attention layer 1 head 3](artifacts/attention/layer_1_head_3.png){width=50%}
 
 For each matched pair `(i, j)`, I computed:
 
@@ -789,10 +779,10 @@ Detailed opener-to-closer and closer-to-opener scores for the strongest head wer
 
 The results do not show a clean bracket-matching head. Layer 0 head 3 attends from openers to
 their matching closers slightly more than uniform attention, but the effect is modest and
-asymmetric: closers do not strongly attend back to their openers. Most other heads are at or
+asymmetric. Closers do not strongly attend back to their openers. Most other heads are at or
 below the uniform baseline.
 
-This lines up with the OOD results: the model can solve many in-distribution examples, but the
+The results are consistent with results from OOD. The model can solve many in-distribution examples, but the
 attention plots do not expose an explicit bracket-pairing mechanism. The useful computation may
 be distributed across heads and layers, or the model may mainly rely on shallower statistical
 cues rather than systematic matching.
@@ -803,7 +793,7 @@ The attention metrics are saved in:
 artifacts/attention/metrics.json
 ```
 
-### 11. Attention patterns on erroneous strings
+### 11. Matching head, attention patterns, erroneous strings
 
 I implemented the erroneous-string attention analysis in `lab4_attention_errors.py`. The script
 generates corrupted strings, records the corrupted position, extracts attention for the same
@@ -844,17 +834,17 @@ The numerical summary for layer 0 head 3 was:
 | E4 Premature close | 0.0269 | 0.0213 | 0.0294 | 0.0231 | 0.159 | 0.152 |
 
 The same weak matching head does not become a clean error-localisation head on erroneous strings.
-Most differences between corrupted and control positions are small. E4 is the clearest exception:
+Most differences between corrupted and control positions are small. E4 is the clearest exception,
 the premature closer receives higher incoming attention and more attention from `[CLS]` than the
 control position. A cautious reading is that the model sometimes routes information from globally
 salient anomalies toward the classification token.
 
 However, the effect is not strong enough to support a claim that attention directly implements
-error localisation. E2 even shows the opposite tendency: the corrupted opener receives less
+error localisation. E2 shows opposite tendency, with the corrupted opener receives less
 `[CLS]` attention than the control position. E3 has slightly higher `[CLS] -> error` attention,
 but lower local attention mass around the corrupted position.
 
-My hypothesis is therefore cautious: attention may participate in localising some errors,
+My hypothesis is therefore cautious. Attention may participate in localising some errors,
 especially premature closes that violate prefix well-formedness, but the model does not use a
 stable, interpretable attention pattern that corresponds to the symbolic stack algorithm. Error
 evidence is likely distributed across several heads and representations, rather than concentrated
@@ -866,7 +856,7 @@ The metrics are saved in:
 artifacts/attention_errors/metrics.json
 ```
 
-### 12. Bonus: attention rollout to `[CLS]`
+### 12. (bonus) attention rollout to `[CLS]`
 
 I implemented attention rollout in `lab4_attention_rollout.py`, following the usual idea of
 combining attention matrices across layers. For each layer, I averaged over heads, added an
@@ -1016,13 +1006,13 @@ artifacts/local_probe/r2_by_layer.png
 artifacts/local_probe/metrics.json
 ```
 
-![Local depth probe R2 by layer](artifacts/local_probe/r2_by_layer.png){width=60%}
+![Local depth probe R2 by layer](artifacts/local_probe/r2_by_layer.png){width=50%}
 
 The best local depth probe is at layer 2, but the difference between layer 1 and layer 2 is tiny.
-The overall `R^2` is low. This means that current stack depth is only weakly linearly recoverable
+The overall `R^2` is low, which means that current stack depth is only weakly linearly recoverable
 from individual token representations.
 
-This result is informative because local depth is exactly the kind of quantity that a stack-based
+This is informative since that local depth is exactly the kind of quantity that a stack-based
 Dyck recogniser would maintain explicitly. If the Transformer had learned a clean stack-like
 algorithm, we might expect local depth to become increasingly linearly decodable in later layers.
 Instead, the probe improves only slightly over the positional/token embedding baseline. The model
@@ -1038,10 +1028,8 @@ evaluated on:
 1. held-out correct strings;
 2. corrupted strings with known error positions.
 
-For erroneous strings, I used the corrupted prefix balance as the target depth signal. This means
-that an inserted premature closer can make the balance drop too early, and a missing closer can
-make the later balance too high. This is not a perfect semantic target for "intended" repair, but
-it tests whether the model representation tracks the actually observed prefix structure.
+For erroneous strings, I used the corrupted prefix balance as the target depth signal. In this way, an inserted premature closer can make the balance drop too early, and a missing closer can
+make the later balance too high. Though not a perfect semantic target for intended repair, it could test whether the model representation tracks the actually observed prefix structure.
 
 The command was:
 
@@ -1077,12 +1065,12 @@ Mean absolute error before, at, and after the corrupted position:
 | E4 Premature close | 0.992 | 1.673 | 1.739 |
 
 The E3 and E4 patterns are the most interpretable. For type mismatches and premature closes, the
-probe error increases at and after the corrupted token. E4 is especially clear: the mean absolute
+probe error increases at and after the corrupted token. E4 is especially clear, with the mean absolute
 error rises from `0.992` before the error to `1.673` at the error and `1.739` after it. After the
 prefix structure is corrupted, the representation becomes less compatible with the depth probe.
 
-For E1 and E2, the pattern is less useful. The error is either an absence or an extra opener, and
-the local depth probe does not show a clean breakdown after the corruption. That is not surprising
+The pattern is less useful for E1 and E2. The error is either an absence or an extra opener, and
+the local depth probe does not show a clean breakdown after the corruption. This is not surprising
 given that the local depth probe was already weak on correct strings.
 
 I also tried using the probe residual as an unsupervised error-localisation score. For each
@@ -1097,7 +1085,7 @@ position had the largest residual.
 | E4 Premature close | 26.46 | 0.010 |
 
 This localisation attempt fails. The true error position is rarely the position with the largest
-probe residual. The reason is straightforward: local depth is not strongly linearly encoded in
+probe residual. This could be understood, as local depth is not strongly linearly encoded in
 the first place, so residuals from this weak probe are too noisy to serve as a reliable
 localisation signal.
 
@@ -1107,7 +1095,7 @@ The metrics are saved in:
 artifacts/probe_errors/metrics.json
 ```
 
-### 16. Bonus: layer-wise probes and progressive computation
+### 16. (bonus) Train probes on intermediate layers, progressive computation
 
 I implemented the layer-wise global probe in `lab4_layerwise_global_probe.py`. This extends the
 global depth analysis by probing `[CLS]` after the embedding layer, after layer 1, and after
@@ -1137,22 +1125,16 @@ Local current-depth probe results:
 | Layer 1 | 0.160 |
 | Layer 2 | 0.160 |
 
-The plots are saved in:
+The plots are:
 
-```text
-artifacts/layerwise_global_probe/global_r2_by_layer.png
-artifacts/layerwise_global_probe/global_accuracy_by_layer.png
-artifacts/local_probe/r2_by_layer.png
-```
+![Global depth probe R2 by layer](artifacts/layerwise_global_probe/global_r2_by_layer.png){width=40%}
 
-![Global depth probe R2 by layer](artifacts/layerwise_global_probe/global_r2_by_layer.png){width=60%}
+![Global depth probe accuracy by layer](artifacts/layerwise_global_probe/global_accuracy_by_layer.png){width=40%}
 
-![Global depth probe accuracy by layer](artifacts/layerwise_global_probe/global_accuracy_by_layer.png){width=60%}
-
-![Local depth probe R2 by layer](artifacts/local_probe/r2_by_layer.png){width=60%}
+![Local depth probe R2 by layer](artifacts/local_probe/r2_by_layer.png){width=40%}
 
 The global depth probes show a progressive pattern. The embedding-level `[CLS]` representation
-contains essentially no useful global depth information: regression `R^2` is around zero and
+contains essentially no useful global depth information. Regression `R^2` is around zero and
 classification accuracy is close to chance. After the first Transformer layer, depth becomes much
 more linearly decodable. After the second layer, it improves slightly further.
 
@@ -1168,7 +1150,7 @@ depth at each position.
 
 ## 9. Open discussion
 
-### 17. Rule learning versus statistical pattern memorisation
+### 17. Conclude rule learning or statistical pattern memorising
 
 Based on the experiments above, I would not conclude that this Transformer has learned the full
 Dyck membership rule. It has learned useful in-distribution regularities, but the evidence points
@@ -1189,7 +1171,7 @@ The PDA comparison makes the contrast explicit:
 
 The PDA uses a stack, so its computation is depth-invariant. The Transformer does not show this
 kind of invariance. Fine-tuning on 500 examples with depth 5 improves depths 6 and 7 slightly,
-but final accuracies remain around `0.61-0.64`. I read that as weak transfer to the broader OOD
+but final accuracies remain around `0.61-0.64`. I interprete this as weak transfer to the broader OOD
 regime, not acquisition of the exact recursive rule.
 
 The attention analysis points in the same direction. If the model had learned a transparent
@@ -1207,26 +1189,25 @@ stack-based recogniser would naturally maintain local depth and opener type info
 local probe result is evidence against a clean internal stack representation.
 
 The correction experiment is another warning sign. Token-level correction accuracy is high, but
-exact-match accuracy is only `0.509`, barely above the "leave correct strings alone" baseline.
+exact-match accuracy is only `0.509`, barely above the baseline ("leave correct strings alone").
 The model does not reliably construct globally valid repairs. This is what we would expect if it
 has learned local edit tendencies rather than a global grammar-constrained repair process.
 
 My conclusion is therefore:
 
-```text
 The Transformer has learned useful bounded-depth heuristics for Dyck-like strings,
 but not the exact Dyck membership rule.
-```
+
 
 These heuristics include local bracket configurations, length-related cues, rough global depth
 signals in `[CLS]`, and some sensitivity to visible closing-bracket anomalies. They are enough for
 reasonable in-distribution performance, but they do not compose reliably when depth and length
 move outside the training regime.
 
-### 18. Length-based data augmentation for OOD generalisation
+### 18. Data augmentation by length for OOD generalisation
 
 I implemented a length-based data augmentation experiment. The motivation comes from the OOD
-results in question 7: performance degraded most clearly as sequence length increased. The
+results in question 7, where performance degraded most clearly as sequence length increased. The
 original detector was trained on lengths 4-40, while the OOD split uses lengths around 40-78 in
 my non-truncated evaluation. Therefore, I tried exposing the model to longer strings while
 keeping the same training-depth bound `n <= 4`.
@@ -1279,7 +1260,7 @@ artifacts/length_aug_finetune/training_curves.png
 
 ![Length augmentation fine-tuning curves](artifacts/length_aug_finetune/training_curves.png)
 
-This modification substantially improves OOD performance, especially for depths 6 and 7. That
+This modification substantially improves OOD performance, especially for depths 6 and 7. The result
 matches the earlier observation that much of the OOD failure was length-driven. Once the model
 sees longer sequences during fine-tuning, it becomes much less brittle on the long OOD examples.
 
@@ -1294,14 +1275,13 @@ useful transfer to deeper nesting.
 The Dyck task is informative about the syntactic capabilities of large language models, but only
 in a limited and carefully qualified way.
 
-It is informative because Dyck languages isolate one important component of syntax: hierarchical
-nesting. Natural language contains many dependencies that are not purely local, such as embedded
+It is informative because Dyck languages isolate  hierarchical nesting, one important component of syntax. Natural language contains many dependencies that are not purely local, such as embedded
 clauses, agreement across intervening material, and recursively nested constituents. A model that
 cannot handle even a clean synthetic nesting task should make us cautious about claims that it
 has learned fully systematic syntax. In this sense, Dyck languages are useful stress tests for
 structural generalisation.
 
-The experiments here show a pattern that is relevant to LLMs more broadly: high in-distribution
+The experiments here show a pattern relevant to LLMs more broadly, that high in-distribution
 performance does not necessarily imply rule-like generalisation. The Transformer detector works
 reasonably well on the training-like test set, but its OOD performance drops sharply when length
 and depth increase. Attention and probing analyses also fail to reveal a clean symbolic stack.
@@ -1324,7 +1304,7 @@ are invisible in the Dyck setting.
 
 Third, the training regimes are very different. The small Transformer in this lab is trained from
 scratch on tens of thousands of synthetic examples. Large language models are trained on massive
-corpora containing many overlapping cues: punctuation, formatting, code, natural language,
+corpora containing many overlapping cues, including punctuation, formatting, code, natural language,
 parallel paraphrases, and repeated constructions. Their syntactic behaviour may reflect scale and
 data diversity in ways that this lab does not capture.
 
